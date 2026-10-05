@@ -56,9 +56,9 @@ function randomGlitch() {
 randomGlitch();
 
 
-// =========================================
+
 // MOUSE HOVER
-// =========================================
+
 
 button.addEventListener("mouseenter", () => {
 
@@ -67,9 +67,9 @@ button.addEventListener("mouseenter", () => {
 });
 
 
-// =========================================
+
 // CLICK GLITCH
-// =========================================
+
 
 button.addEventListener("click", () => {
 
