@@ -47,12 +47,14 @@ body {
 
 .background-main {
     background-image:
+        linear-gradient(rgba(5, 5, 5, 0.5), rgba(5, 5, 5, 0.5)),
         linear-gradient(rgba(5, 5, 5, 0.32), rgba(5, 5, 5, 0.48)),
         url("Assets/Background.png");
 }
 
 .background-one {
     background-image:
+        linear-gradient(rgba(5, 5, 5, 0.5), rgba(5, 5, 5, 0.5)),
         linear-gradient(rgba(5, 5, 5, 0.32), rgba(5, 5, 5, 0.48)),
         url("Assets/Background1.png");
 }
@@ -64,18 +66,160 @@ body {
 
 .background-flash-1 {
     background-image:
+        linear-gradient(rgba(5, 5, 5, 0.5), rgba(5, 5, 5, 0.5)),
         linear-gradient(rgba(5, 5, 5, 0.32), rgba(5, 5, 5, 0.48)),
         url("Assets/Background2.png");
 }
 
 .background-flash-2 {
     background-image:
+        linear-gradient(rgba(5, 5, 5, 0.5), rgba(5, 5, 5, 0.5)),
         linear-gradient(rgba(5, 5, 5, 0.32), rgba(5, 5, 5, 0.48)),
         url("Assets/Background3.png");
 }
 
 .background-flash {
     opacity: 0;
+    filter: grayscale(1);
+}
+
+.background-glitch.severe-main .background-flash-1 {
+    animation: sceneTransitionFlash 0.65s steps(2, end) both;
+}
+
+.background-glitch.severe-one .background-flash-2 {
+    animation: sceneTransitionFlash 0.65s steps(2, end) both;
+}
+
+@keyframes sceneTransitionFlash {
+    0%,
+    100% {
+        opacity: 0;
+        transform: translateX(0) scale(1);
+        filter: none;
+        clip-path: inset(0 0 100% 0);
+    }
+
+    16% {
+        opacity: 0.95;
+        transform: translateX(-12px) scale(1.04);
+        filter: grayscale(1) contrast(2);
+        clip-path: inset(8% 0 74% 0);
+    }
+
+    37% {
+        opacity: 0.65;
+        transform: translateX(9px) scale(1.02);
+        filter: grayscale(1) contrast(1.8);
+        clip-path: inset(35% 0 45% 0);
+    }
+
+    61% {
+        opacity: 1;
+        transform: translateX(-7px) scale(1.06);
+        filter: grayscale(1) contrast(2.2);
+        clip-path: inset(67% 0 10% 0);
+    }
+
+    82% {
+        opacity: 0.8;
+        transform: translateX(4px) scale(1.02);
+        filter: grayscale(1) contrast(1.7);
+        clip-path: inset(0);
+    }
+}
+
+.background-main-glitch-flash,
+.background-main-glitch-transition {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    mix-blend-mode: screen;
+    opacity: 0;
+    filter: grayscale(1);
+}
+
+.background-main-glitch-flash {
+    background-image: url("Assets/BackgroundGlitch1.png");
+}
+
+.background-main-glitch-transition {
+    background-image: url("Assets/BackgroundGlitch2.png");
+}
+
+.background-glitch.phase-main .background-main-glitch-flash {
+    animation: mainBackgroundFlash 3.2s steps(1, end) infinite;
+}
+
+.background-glitch.severe-main .background-main-glitch-transition {
+    animation: mainBackgroundTransition 0.65s steps(2, end) both;
+}
+
+@keyframes mainBackgroundFlash {
+    0%,
+    72%,
+    78%,
+    100% {
+        opacity: 0;
+        transform: translate(0, 0);
+    }
+
+    73% {
+        opacity: 0.72;
+        transform: translate(-7px, 2px);
+    }
+
+    75% {
+        opacity: 0.35;
+        transform: translate(5px, -2px);
+    }
+
+    76% {
+        opacity: 0.82;
+        transform: translate(-3px, 1px);
+    }
+}
+
+@keyframes mainBackgroundTransition {
+    0% {
+        opacity: 0;
+        transform: translateX(0) scale(1);
+        clip-path: inset(0 0 100% 0);
+    }
+
+    18% {
+        opacity: 0.9;
+        transform: translateX(-12px) scale(1.04);
+        clip-path: inset(12% 0 68% 0);
+    }
+
+    38% {
+        opacity: 0.55;
+        transform: translateX(10px) scale(1.02);
+        clip-path: inset(39% 0 38% 0);
+    }
+
+    62% {
+        opacity: 0.95;
+        transform: translateX(-7px) scale(1.06);
+        clip-path: inset(68% 0 8% 0);
+    }
+
+    82% {
+        opacity: 0.65;
+        transform: translateX(4px) scale(1.02);
+        clip-path: inset(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(0) scale(1);
+        clip-path: inset(0);
+    }
 }
 
 .background-glitch.phase-one.flash-1 .background-flash-1,
@@ -97,13 +241,13 @@ body {
 
 .background-glitch.phase-one.flash-1 .background-flash-1::before,
 .background-glitch.phase-one.flash-2 .background-flash-2::before {
-    filter: sepia(1) saturate(6) hue-rotate(300deg);
+    filter: grayscale(1) contrast(1.5);
     animation: alternateFlashRed 0.9s steps(1, end) both;
 }
 
 .background-glitch.phase-one.flash-1 .background-flash-1::after,
 .background-glitch.phase-one.flash-2 .background-flash-2::after {
-    filter: sepia(1) saturate(6) hue-rotate(165deg);
+    filter: grayscale(1) contrast(1.5);
     animation: alternateFlashBlue 0.9s steps(1, end) both;
 }
 
@@ -120,49 +264,49 @@ body {
     12% {
         opacity: 1;
         transform: translateX(-14px) skewX(-1deg);
-        filter: contrast(2) saturate(2.5);
+        filter: grayscale(1) contrast(2);
         clip-path: inset(9% 0 76% 0);
     }
 
     19% {
         opacity: 1;
         transform: translateX(11px) skewX(1deg);
-        filter: contrast(1.8) hue-rotate(24deg);
+        filter: grayscale(1) contrast(1.8);
         clip-path: inset(31% 0 51% 0);
     }
 
     27% {
         opacity: 1;
         transform: translateX(-8px);
-        filter: contrast(2.2) saturate(3);
+        filter: grayscale(1) contrast(2.2);
         clip-path: inset(59% 0 31% 0);
     }
 
     34% {
         opacity: 0.92;
         transform: translateX(6px);
-        filter: contrast(1.8);
+        filter: grayscale(1) contrast(1.8);
         clip-path: inset(81% 0 11% 0);
     }
 
     43% {
         opacity: 1;
         transform: translateX(-4px) skewX(-0.5deg);
-        filter: contrast(2.2) saturate(2);
+        filter: grayscale(1) contrast(2.2);
         clip-path: inset(0);
     }
 
     68% {
         opacity: 0.85;
         transform: translateX(3px);
-        filter: contrast(1.7);
+        filter: grayscale(1) contrast(1.7);
         clip-path: inset(0);
     }
 
     82% {
         opacity: 0.62;
         transform: translateX(-3px);
-        filter: contrast(1.5);
+        filter: grayscale(1) contrast(1.5);
         clip-path: inset(0);
     }
 }
@@ -247,22 +391,22 @@ body {
 }
 
 .background-main::before {
-    filter: sepia(1) saturate(4) hue-rotate(295deg);
+    filter: grayscale(1) contrast(1.5);
     animation: mainBackgroundGlitchRed 2.4s steps(1, end) infinite;
 }
 
 .background-main::after {
-    filter: sepia(1) saturate(4) hue-rotate(145deg);
+    filter: grayscale(1) contrast(1.5);
     animation: mainBackgroundGlitchBlue 3.1s steps(1, end) infinite;
 }
 
 .background-one::before {
-    filter: sepia(1) saturate(5) hue-rotate(325deg);
+    filter: grayscale(1) contrast(1.6);
     animation: backgroundOneGlitchRed 1.6s steps(1, end) infinite;
 }
 
 .background-one::after {
-    filter: sepia(1) saturate(5) hue-rotate(180deg);
+    filter: grayscale(1) contrast(1.6);
     animation: backgroundOneGlitchBlue 2s steps(1, end) infinite;
 }
 
@@ -379,22 +523,22 @@ body {
     }
 
     20% {
-        filter: contrast(1.7) saturate(2);
+        filter: grayscale(1) contrast(1.7);
         transform: translateX(-16px) skewX(-1deg);
     }
 
     40% {
-        filter: hue-rotate(85deg) contrast(2);
+        filter: grayscale(1) contrast(2);
         transform: translateX(13px) skewX(1deg);
     }
 
     60% {
-        filter: contrast(1.8);
+        filter: grayscale(1) contrast(1.8);
         transform: translateX(-8px);
     }
 
     80% {
-        filter: hue-rotate(-70deg) saturate(2);
+        filter: grayscale(1) contrast(1.8);
         transform: translateX(6px);
     }
 }
@@ -561,16 +705,16 @@ button {
 
 
 /* =========================================
-   RGB COLOR SEPARATION
+   MONOCHROME GLITCH SEPARATION
 ========================================= */
 
-.rgb-red {
+.glitch-white {
 
     position: absolute;
 
     inset: 0;
 
-    background: rgba(255, 0, 0, 0.025);
+    background: rgba(255, 255, 255, 0.025);
 
     transform: translateX(-2px);
 
@@ -579,13 +723,13 @@ button {
 }
 
 
-.rgb-blue {
+.glitch-gray {
 
     position: absolute;
 
     inset: 0;
 
-    background: rgba(0, 80, 255, 0.025);
+    background: rgba(128, 128, 128, 0.04);
 
     transform: translateX(2px);
 
@@ -821,7 +965,7 @@ body.vhs-glitching .scanlines {
 }
 
 
-body.vhs-glitching .rgb-red {
+body.vhs-glitching .glitch-white {
 
     transform: translateX(-7px);
 
@@ -830,7 +974,7 @@ body.vhs-glitching .rgb-red {
 }
 
 
-body.vhs-glitching .rgb-blue {
+body.vhs-glitching .glitch-gray {
 
     transform: translateX(7px);
 
