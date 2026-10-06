@@ -1,5 +1,12 @@
 const body = document.body;
 const button = document.getElementById("glitchButton");
+const background = document.querySelector(".background-glitch");
+
+const BACKGROUND_DURATION = 10_000;
+const SEVERE_GLITCH_DURATION = 650;
+let vhsGlitchTimeout;
+let backgroundPhaseTimeout;
+let backgroundFlashTimeout;
 
 
 // =========================================
@@ -8,13 +15,69 @@ const button = document.getElementById("glitchButton");
 
 function triggerGlitch(duration = 150) {
 
-    body.classList.add("glitching");
+    body.classList.add("vhs-glitching");
 
-    setTimeout(() => {
-
-        body.classList.remove("glitching");
+    clearTimeout(vhsGlitchTimeout);
+    vhsGlitchTimeout = setTimeout(() => {
+        body.classList.remove("vhs-glitching");
 
     }, duration);
+}
+
+function scheduleBackgroundFlash() {
+    if (!background?.classList.contains("phase-one")) {
+        return;
+    }
+
+    const delay = 1400 + Math.random() * 2200;
+    backgroundFlashTimeout = setTimeout(() => {
+        if (!background.classList.contains("phase-one")) {
+            return;
+        }
+
+        const flash = Math.random() < 0.5 ? "flash-1" : "flash-2";
+        background.classList.add(flash);
+
+        setTimeout(() => {
+            background.classList.remove(flash);
+            scheduleBackgroundFlash();
+        }, 900);
+    }, delay);
+}
+
+function startBackgroundPhase(phase) {
+    if (!background) {
+        return;
+    }
+
+    clearTimeout(backgroundPhaseTimeout);
+    clearTimeout(backgroundFlashTimeout);
+    background.classList.remove(
+        "phase-main",
+        "phase-one",
+        "severe-main",
+        "severe-one",
+        "flash-1",
+        "flash-2"
+    );
+    background.classList.add(phase);
+
+    if (phase === "phase-one") {
+        scheduleBackgroundFlash();
+    }
+
+    backgroundPhaseTimeout = setTimeout(() => {
+        const severeClass = phase === "phase-main" ? "severe-main" : "severe-one";
+        background.classList.add(severeClass);
+
+        setTimeout(() => {
+            startBackgroundPhase(phase === "phase-main" ? "phase-one" : "phase-main");
+        }, SEVERE_GLITCH_DURATION);
+    }, BACKGROUND_DURATION);
+}
+
+if (background) {
+    startBackgroundPhase("phase-main");
 }
 
 
@@ -60,30 +123,36 @@ randomGlitch();
 // MOUSE HOVER
 
 
-button.addEventListener("mouseenter", () => {
+if (button) {
 
-    triggerGlitch(180);
+    button.addEventListener("mouseenter", () => {
 
-});
+        triggerGlitch(180);
 
+    });
 
+}
 
 // CLICK GLITCH
 
 
-button.addEventListener("click", () => {
+if (button) {
 
-    // Stronger glitch
+    button.addEventListener("click", () => {
 
-    triggerGlitch(500);
+        // Stronger glitch
+
+        triggerGlitch(500);
 
 
-    // You can put your page transition here
+        // You can put your page transition here
 
-    setTimeout(() => {
+        setTimeout(() => {
 
-        console.log("ENTER CLICKED");
+            console.log("ENTER CLICKED");
 
-    }, 500);
+        }, 500);
 
-});
+    });
+
+}
